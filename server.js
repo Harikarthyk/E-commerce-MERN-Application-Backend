@@ -5,16 +5,17 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const app = express();
-	
+
 //Import Custom Routes
 const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
+const orderRoutes = require('./routes/order');
 
-//Middleware : 
-app.use(bodyParser.json());
+//Middleware :
 app.use(cookieParser());
 app.use(cors());
+app.use(bodyParser.json({ limit: '50mb' }));
 
 //DB Connection
 mongoose
@@ -38,6 +39,7 @@ app.get('/', (req, res) => {
 app.use('/api', authRoutes);
 app.use('/api', categoryRoutes);
 app.use('/api', productRoutes);
+app.use('/api', orderRoutes);
 
 //Port :
 const PORT = process.env.PORT || 5050;

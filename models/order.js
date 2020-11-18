@@ -3,6 +3,9 @@ const { ObjectId } = mongoose.Schema;
 
 const PurchasedProductSchema = new mongoose.Schema({
 	product: { type: ObjectId, ref: 'Product' },
+	size: {
+		type: String,
+	},
 	count: {
 		type: Number,
 	},
@@ -15,14 +18,25 @@ const PurchasedProduct = mongoose.model(
 
 const orderSchema = new mongoose.Schema({
 	products: [PurchasedProductSchema],
-	price: {
+	total: {
 		type: Number,
+		required: true,
 	},
 	user: {
 		type: ObjectId,
 		ref: 'User',
 	},
-	address: {
+	street: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	state: {
+		type: String,
+		required: true,
+		trim: true,
+	},
+	district: {
 		type: String,
 		required: true,
 		trim: true,
