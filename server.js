@@ -11,7 +11,9 @@ const authRoutes = require('./routes/auth');
 const categoryRoutes = require('./routes/category');
 const productRoutes = require('./routes/product');
 const orderRoutes = require('./routes/order');
-
+app.use((req, res, next) => {
+	res.header(('Access-Control-Allow-Origin': '*'));
+});
 //Middleware :
 app.use(cookieParser());
 app.use(cors());
