@@ -4,14 +4,15 @@ const {
 	addOrderByUserId,
 	getOrderforUserId,
 	getAllOrderByUserIdAdmin,
-	updateOrderStatus,getOrderById
+	updateOrderStatus,
+	getOrderById,
 } = require('../controllers/order');
 const { getUserById } = require('../controllers/user');
 const router = express.Router();
 
 router.param('userId', getUserById);
 
-router.param('orderId',getOrderById)
+router.param('orderId', getOrderById);
 
 router.get('/all/orders/:userId', getAllOrderByUserIdAdmin);
 
@@ -24,5 +25,6 @@ router.post(
 	addOrderByUserId,
 );
 
-router.post('/update/status/order/:orderId/:userId', updateOrderStatus) ;
+router.post('/update/status/order/:orderId/:userId', updateOrderStatus);
+
 module.exports = router;

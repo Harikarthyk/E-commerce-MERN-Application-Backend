@@ -20,13 +20,7 @@ router.get('/product/:productId', getProductInfoById);
 
 router.get('/all/products', getAllProducts);
 
-router.post(
-	'/add/product/:userId',
-	isSignedIn,
-	isAuthenticated,
-	isAdmin,
-	addProduct,
-);
+router.post('/add/product/:userId', isSignedIn, isAuthenticated, addProduct);
 
 router.put(
 	'/update/product/:productId/:userId',

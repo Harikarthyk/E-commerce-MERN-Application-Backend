@@ -1,6 +1,5 @@
-const { result } = require('lodash');
 const { Order } = require('../models/order');
-
+const Product = require('../models/product');
 exports.addOrderByUserId = (req, res) => {
 	let newOrder = new Order(req.body);
 	newOrder.save((error, result) => {
@@ -9,6 +8,18 @@ exports.addOrderByUserId = (req, res) => {
 				error: 'Error in placing order',
 			});
 		}
+		req.body.products.map((pro) => {
+			Product.findOneAndUpdate(
+				{ _id: pro.product },
+				{ stock: pro.stock - pro.count },
+			).exec((e, r) => {
+				if (e || !r) {
+					return res.status(400).json({
+						error: 'Error in updating the stock',
+					});
+				}
+			});
+		});
 		return res.status(200).json({
 			message: 'Order Placed Successfully',
 		});
