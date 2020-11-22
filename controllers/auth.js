@@ -142,3 +142,55 @@ exports.isAdmin = (req, res, next) => {
 	}
 	next();
 };
+
+exports.getOTPforPassword = (req, res) => {
+	var transporter = nodemailer.createTransport({
+		service: 'gmail',
+		auth: {
+			user: 'hari.jsmith494@gmail.com',
+			pass: 'lfpgbeieoqbtzenq',
+		},
+	});
+	var OTP = generateRandomNumber();
+	var mailOptions = {
+		from: 'hari.jsmith494@gmail.com',
+		to: req.body.email,
+		subject: `Clothings Verification Mail `,
+		html: `<h2>Your OTP <i>${OTP}</i> (expires in 5 minutes) </h2>`,
+	};
+	transporter.sendMail(mailOptions, function (err, info) {
+		if (err) {
+			return res.status(400).json({
+				error: 'Error in registration',
+			});
+		}
+	});
+	return res.status(200).json({
+		OTP: OTP,
+		message: 'Check your mail',
+	});
+};
+
+exports.setNewPassword = (req, res) => {
+	bcrypt.hash(req.body.password, 10, function (err, hash) {
+		if (err) {
+			return res.status(400).json({
+				error: `Error in Password Updation`,
+			});
+		}
+		User.findOneAndUpdate(
+			{ email: req.body.email },
+			{ $set: { password: hash } },
+			(error, result) => {
+				if (error) {
+					return res.status(400).json({
+						error: 'Error in reseting the password',
+					});
+				}
+				return res.status(200).json({
+					message: 'Password updated Successfully',
+				});
+			},
+		);
+	});
+};
