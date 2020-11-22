@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const expressJWT = require('express-jwt');
+const { result } = require('lodash');
 
 const generateRandomNumber = () => {
 	let k = 4;
@@ -144,6 +145,13 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.getOTPforPassword = (req, res) => {
+	User.findOne({ email: req.body.email }, (error, result) => {
+		if (error || result) {
+			return res.status(400).json({
+				error: 'User not Found',
+			});
+		}
+	});
 	var transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
