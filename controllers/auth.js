@@ -145,37 +145,37 @@ exports.isAdmin = (req, res, next) => {
 };
 
 exports.getOTPforPassword = (req, res) => {
-	User.findOne({ email: req.body.email }, (error, result) => {
-		if (error || result) {
+	User.find({ email: req.body.email }, (error, result) => {
+		if (error || result.length === 0) {
 			return res.status(400).json({
 				error: 'User not Found',
 			});
 		}
-	});
-	var transporter = nodemailer.createTransport({
-		service: 'gmail',
-		auth: {
-			user: 'hari.jsmith494@gmail.com',
-			pass: 'lfpgbeieoqbtzenq',
-		},
-	});
-	var OTP = generateRandomNumber();
-	var mailOptions = {
-		from: 'hari.jsmith494@gmail.com',
-		to: req.body.email,
-		subject: `Clothings Verification Mail `,
-		html: `<h2>Your OTP <i>${OTP}</i> (expires in 5 minutes) </h2>`,
-	};
-	transporter.sendMail(mailOptions, function (err, info) {
-		if (err) {
-			return res.status(400).json({
-				error: 'Error in registration',
-			});
-		}
-	});
-	return res.status(200).json({
-		OTP: OTP,
-		message: 'Check your mail',
+		var transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: 'hari.jsmith494@gmail.com',
+				pass: 'lfpgbeieoqbtzenq',
+			},
+		});
+		var OTP = generateRandomNumber();
+		var mailOptions = {
+			from: 'hari.jsmith494@gmail.com',
+			to: req.body.email,
+			subject: `Clothings Verification Mail `,
+			html: `<h2>Your OTP <i>${OTP}</i> (expires in 5 minutes) </h2>`,
+		};
+		transporter.sendMail(mailOptions, function (err, info) {
+			if (err) {
+				return res.status(400).json({
+					error: 'Error in registration',
+				});
+			}
+		});
+		return res.status(200).json({
+			OTP: OTP,
+			message: 'Check your mail',
+		});
 	});
 };
 
