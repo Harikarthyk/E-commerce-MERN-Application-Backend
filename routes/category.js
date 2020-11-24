@@ -31,7 +31,7 @@ router.post(
 router.get('/all/category', getAllCategory);
 
 router.put(
-	'/edit/category/:categoryId',
+	'/edit/category/:categoryId/:userId',
 	isSignedIn,
 	isAuthenticated,
 	isAdmin,
