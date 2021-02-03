@@ -202,3 +202,8 @@ exports.setNewPassword = (req, res) => {
 		);
 	});
 };
+
+exports.reqSellerAccount = (req,res) => {
+
+	
+}
