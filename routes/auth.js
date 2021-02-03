@@ -23,6 +23,4 @@ router.post("/forgotpassword", getOTPforPassword);
 
 router.post("/set/password", setNewPassword);
 
-// router.post('/activate/selleraccount/:userId',isSignedIn,isAuthenticated , reqSellerAccount)
-
 module.exports = router;
